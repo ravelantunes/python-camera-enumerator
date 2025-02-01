@@ -80,9 +80,9 @@ def get_cameras():
     if _is_mac_os():
         return _mac_os()
     elif _is_windows_os():
-        print('Windows OS')
+        raise NotImplementedError('Windows OS not supported yet')
     elif _is_linux_os():
-        print('Linux OS')
+        return _linux()
     else:
         print('Unknown OS')
 
@@ -93,3 +93,7 @@ def _mac_os() -> list[Camera]:
     cameras = enumerator.enumerate_cameras()
     return cameras
 
+def _linux() -> list[Camera]:
+    from camera_enumerator.linux import enumerate_v4l2_devices
+    cameras = enumerate_v4l2_devices()
+    return cameras

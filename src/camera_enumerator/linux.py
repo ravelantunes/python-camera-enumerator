@@ -28,6 +28,8 @@ def enumerate_v4l2_devices() -> List[Camera]:
     Returns:
         List[Camera]: A list of Camera objects representing available devices.
     """
+    _raise_if_v4l2_not_installed()
+
     cameras: List[Camera] = []
     try:
         # List all available video devices with detailed info.
@@ -43,6 +45,19 @@ def enumerate_v4l2_devices() -> List[Camera]:
         print(f"Error enumerating v4l2 devices: {e}")
 
     return cameras
+
+
+def _raise_if_v4l2_not_installed():
+    """
+    Raises an exception if the v4l2-ctl command is not installed.
+    """
+    try:
+        subprocess.check_output(['v4l2-ctl', '--version'])
+    except FileNotFoundError:
+        raise Exception("Error: v4l2-ctl not found. Please install the v4l-utils package.")
+    except subprocess.CalledProcessError:
+        raise Exception("Error: v4l2-ctl failed to run. Please check your installation.")
+    return False
 
 
 def _parse_list_devices(v4l2_output: str) -> List[Camera]:

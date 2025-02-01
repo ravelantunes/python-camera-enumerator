@@ -1,0 +1,22 @@
+[project]
+name = "python-camera-enumerator"
+version = "0.1.0"
+license = {file = "LICENSE.md"}
+authors = [
+    {name = "Ravel Antunes", email = "ravelantunes@gmail.com"},
+]
+description = "Python library to enumerate connected cameras in consistent way across platforms."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pyobjc>=11.0; sys_platform == 'darwin'",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+]
+
